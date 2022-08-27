@@ -1,104 +1,102 @@
 // Author: Habib Mhamadi
 // Email: habibmhamadi@gmail.com
 
-class MultiSelectTag {
-    #element
-    #values
-    #options
-    #customSelectContainer
-    #body
-    #inputContainer
-    #input
-    #drawer
-    #ul
-    #customs
 
-    constructor(el, customs = {}) {
-        this.#element = document.getElementById(el)
-        this.#customs = customs
-        this.createElements()
-        this.#initOptions()
-        this.#enableItemSelection()
-        this.#setValues()
+export default function MultiSelectTag (el, customs = {}) {
+    var element = null
+    var options = null
+    var customSelectContainer = null
+    var body = null
+    var inputContainer = null
+    var input = null
+    var drawer = null
+    var ul = null
+    init()
 
-        this.#input.addEventListener('click', () => {
-            this.#initOptions()
-            this.#enableItemSelection()
-            if(this.#options.length != this.#body.childElementCount - 1) {
-                this.#drawer.classList.remove('hidden')  
+    function init() {
+        element = document.getElementById(el)
+        createElements()
+        initOptions()
+        enableItemSelection()
+        setValues()
+
+        input.addEventListener('click', () => {
+            initOptions()
+            enableItemSelection()
+            if(options.length != body.childElementCount - 1) {
+                drawer.classList.remove('hidden')  
             }
         })
 
-        this.#input.addEventListener('keyup', (e) => {
-                this.#initOptions(e.target.value)
-                this.#enableItemSelection()
+        input.addEventListener('keyup', (e) => {
+                initOptions(e.target.value)
+                enableItemSelection()
         })
 
-        this.#input.addEventListener('keydown', (e) => {
-            if(e.key === 'Backspace' && !e.target.value && this.#body.childElementCount > 1) {
-                const child = this.#body.children[this.#body.childElementCount - 2].firstChild
-                const option = this.#options.find((op) => op.value == child.dataset.value)
+        input.addEventListener('keydown', (e) => {
+            if(e.key === 'Backspace' && !e.target.value && body.childElementCount > 1) {
+                const child = body.children[body.childElementCount - 2].firstChild
+                const option = options.find((op) => op.value == child.dataset.value)
                 option.selected = false
-                this.#removeTag(child.dataset.value)
-                this.#setValues()
+                removeTag(child.dataset.value)
+                setValues()
             }
             
         })
         
         window.addEventListener('click', (e) => {   
-            if (!this.#customSelectContainer.contains(e.target)){
-                this.#drawer.classList.add('hidden')
+            if (!customSelectContainer.contains(e.target)){
+                drawer.classList.add('hidden')
             }
         });
 
     }
 
-    createElements() {
+    function createElements() {
         // Create custom elements
-        this.#values = []
-        this.#options = this.#getOptions();
-        this.#element.classList.add('hidden')
+        options = getOptions();
+        element.classList.add('hidden')
         
-        this.#customSelectContainer = document.createElement('div')
-        this.#customSelectContainer.classList.add(...['relative', `w-${this.#customs.width || 'full'}`])
+        customSelectContainer = document.createElement('div')
+        customSelectContainer.classList.add(...['relative', `w-${customs.width || 'full'}`])
         
-        this.#body = document.createElement('div')
-        this.#body.classList.add(...['inline-flex', 'gap-1', 'p-1.5', 'rounded-md', 'items-center', 'flex-wrap', 'border-gray-300', 'border', 'w-full'])
+        body = document.createElement('div')
+        body.classList.add(...['inline-flex', 'gap-1', 'p-1.5', 'rounded-md', 'items-center', 'flex-wrap', 'border-gray-300', 'border', 'w-full'])
         
-        this.#inputContainer = document.createElement('div')
-        this.#inputContainer.classList.add(...['inline-flex', 'flex-[1_0_100px]', 'input-container'])
+        inputContainer = document.createElement('div')
+        inputContainer.classList.add(...['inline-flex', 'flex-[1_0_100px]', 'input-container'])
 
-        this.#input = document.createElement('input')
-        this.#input.placeholder = `${this.#customs.placeholder || 'Search...'}`
-        this.#input.classList.add(...['inline-block', 'w-full', 'border-none', 'outline-none', 'bg-transparent'])
+        input = document.createElement('input')
+        input.placeholder = `${customs.placeholder || 'Search...'}`
+        input.classList.add(...['inline-block', 'w-full', 'border-none', 'outline-none', 'bg-transparent'])
 
-        this.#inputContainer.append(this.#input)
+        inputContainer.append(input)
 
-        this.#body.append(this.#inputContainer)
+        body.append(inputContainer)
 
-        this.#drawer = document.createElement('div');
-        this.#drawer.classList.add(...['absolute', 'bg-white', 'hidden', 'max-h-40', 'z-40', 'overflow-y-scroll', 'left-0', 'right-0', 'p-2', 'rounded', 'shadow'])
-        this.#ul = document.createElement('ul');
+        drawer = document.createElement('div');
+        drawer.classList.add(...['absolute', 'bg-white', 'hidden', 'max-h-40', 'z-40', 'overflow-y-scroll', 'left-0', 'right-0', 'p-2', 'rounded', 'shadow'])
+        ul = document.createElement('ul');
         
-        this.#drawer.appendChild(this.#ul)
+        drawer.appendChild(ul)
     
-        this.#customSelectContainer.appendChild(this.#body)
-        this.#customSelectContainer.appendChild(this.#drawer)
+        customSelectContainer.appendChild(body)
+        customSelectContainer.appendChild(drawer)
 
         // Place TailwindTagSelection after the element
-        if (this.#element.nextSibling) {
-            this.#element.parentNode.insertBefore(this.#customSelectContainer, this.#element.nextSibling)
+        if (element.nextSibling) {
+            element.parentNode.insertBefore(customSelectContainer, element.nextSibling)
         }
         else {
-            this.#element.parentNode.appendChild(this.#customSelectContainer);
+            element.parentNode.appendChild(customSelectContainer);
         }
     }
 
-    #initOptions(val = null) {
-        this.#ul.innerHTML = ''
-        for (var option of this.#options) {
+    function initOptions(val = null) {
+        ul.innerHTML = ''
+        for (var option of options) {
             if (option.selected) {
-                !this.#isTagSelected(option.value) && this.#createTag(option)
+                !isTagSelected(option.value) && createTag(option)
             }
             else {
                 const li = document.createElement('li')
@@ -108,24 +106,24 @@ class MultiSelectTag {
                 
                 // For search
                 if(val && option.label.toLowerCase().startsWith(val.toLowerCase())) {
-                    this.#ul.appendChild(li)
+                    ul.appendChild(li)
                 }
                 else if(!val) {
-                    this.#ul.appendChild(li)
+                    ul.appendChild(li)
                 }
             }
         }
-        if(this.#ul.childElementCount == 0 || this.#options.length == this.#body.childElementCount - 1) {
-            this.#drawer.classList.add('hidden')
+        if(ul.childElementCount == 0 || options.length == body.childElementCount - 1) {
+            drawer.classList.add('hidden')
         }
-        else if (document.activeElement == this.#input) {
-            this.#drawer.classList.remove('hidden')
+        else if (document.activeElement == input) {
+            drawer.classList.remove('hidden')
         }
     }
 
-    #createTag(option) {
+    function createTag(option) {
         // Create and show selected item as tag
-        const color = `${this.#customs.tagColor || 'teal'}`
+        const color = `${customs.tagColor || 'teal'}`
         const itemDiv = document.createElement('div');
         itemDiv.classList.add(...['flex', 'justify-center', 'items-center', 'font-medium', 'py-0.5', 'px-1.5', 'rounded-full', `text-${color}-700`, `bg-${color}-100`, 'border', `border-${color}-300`]);
         const itemLabel = document.createElement('div');
@@ -138,58 +136,58 @@ class MultiSelectTag {
                 </svg>`, 'image/svg+xml').documentElement
  
         itemClose.addEventListener('click', (e) => {
-            const unselectOption = this.#options.find((op) => op.value == option.value)
+            const unselectOption = options.find((op) => op.value == option.value)
             unselectOption.selected = false
-            this.#removeTag(option.value)
-            this.#initOptions()
-            this.#setValues()
+            removeTag(option.value)
+            initOptions()
+            setValues()
         })
     
         itemDiv.appendChild(itemLabel)
         itemDiv.appendChild(itemClose)
-        this.#body.insertBefore(itemDiv, this.#inputContainer)
+        body.insertBefore(itemDiv, inputContainer)
     }
 
-    #enableItemSelection() {
+    function enableItemSelection() {
         // Add click listener to the list items
-        for(var li of this.#ul.children) {
+        for(var li of ul.children) {
             li.addEventListener('click', (e) => {
-                this.#options.find((o) => o.value == e.target.dataset.value).selected = true
-                this.#input.value = null
-                this.#initOptions()
-                this.#setValues()
-                this.#input.focus()
+                options.find((o) => o.value == e.target.dataset.value).selected = true
+                input.value = null
+                initOptions()
+                setValues()
+                input.focus()
             })
         }
     }
 
-    #isTagSelected(val) {
+    function isTagSelected(val) {
         // If the item is already selected
-        for(var child of this.#body.children) {
+        for(var child of body.children) {
             if(!child.classList.contains('input-container') && child.firstChild.dataset.value == val) {
                 return true
             }
         }
         return false
     }
-    #removeTag(val) {
+    function removeTag(val) {
         // Remove selected item
-        for(var child of this.#body.children) {
+        for(var child of body.children) {
             if(!child.classList.contains('input-container') && child.firstChild.dataset.value == val) {
-                this.#body.removeChild(child)
+                body.removeChild(child)
             }
         }
     }
-    #setValues() {
+    function setValues() {
         // Update element final values
-        for(var i = 0; i < this.#options.length; i++) {
-            this.#element.options[i].selected = this.#options[i].selected
+        for(var i = 0; i < options.length; i++) {
+            element.options[i].selected = options[i].selected
         }
      
     }
-    #getOptions() {
+    function getOptions() {
         // Map element options
-        return [...this.#element.options].map((op) => {
+        return [...element.options].map((op) => {
             return {
                 value: op.value,
                 label: op.label,
@@ -197,8 +195,4 @@ class MultiSelectTag {
             }
         })
     }
-}
-
-if (typeof exports != 'undefined') {
-    module.exports.MultiSelectTag = MultiSelectTag
 }
