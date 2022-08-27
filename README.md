@@ -13,7 +13,7 @@ Install via NPM:
 Install via CDN
 
 ```javascript
-<script src="https://unpkg.com/multi-select-tag@1.0.0/src/multi-select-tag.js"></script>
+<script src="https://unpkg.com/multi-select-tag@1.0.1/src/multi-select-tag.js"></script>
 ```
 
 ## Usage
