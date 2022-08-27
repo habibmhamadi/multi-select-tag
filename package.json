@@ -4,7 +4,8 @@
   "description": "HTML multiple tag selection input with Tailwind CSS.",
   "main": "dist/output.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "npm run production"
   },
   "repository": {
     "type": "git",
@@ -14,20 +15,14 @@
     "multi",
     "select",
     "multiple",
-    "select",
+    "multi-select",
+    "multiple-select",
     "tag",
-    "select",
-    "tags",
-    "select",
+    "vue",
     "tailwind",
     "css",
     "react",
-    "select",
-    "html",
-    "select",
-    "html",
-    "multiple",
-    "select"
+    "html"
   ],
   "author": "Habib Mhamadi",
   "license": "MIT",
