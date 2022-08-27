@@ -13,7 +13,7 @@ Install via NPM:
 Install via CDN
 
 ```javascript
-<script src="https://unpkg.com/multi-select-tag@1.0.1/src/multi-select-tag.js"></script>
+<script src="https://unpkg.com/multi-select-tag@1.0.2/src/multi-select-tag.js"></script>
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ Install via CDN
 ```
 
 ```javascript
-import MultiSelectTag from 'multi-select-tag.js'  // You do not need to `import` if you are using via CDN'
+import MultiSelectTag from 'multi-select-tag.js'  // no need to `import` if you are using via CDN'
 
 new MultiSelectTag('countries') // by id
 ```
