@@ -13,7 +13,7 @@ class MultiSelectTag {
     #ul
     #customs
 
-    constructor(el, customs) {
+    constructor(el, customs = {}) {
         this.#element = document.getElementById(el)
         this.#customs = customs
         this.createElements()
