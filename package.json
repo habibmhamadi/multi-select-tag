@@ -1,0 +1,38 @@
+{
+  "name": "multi-select-tag",
+  "version": "1.0.0",
+  "description": "HTML multiple tag selection input with Tailwind CSS.",
+  "main": "dist/output.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/habibmhamadi/multi-select-tag.git"
+  },
+  "keywords": [
+    "multi",
+    "select",
+    "multiple",
+    "select",
+    "tag",
+    "select",
+    "tags",
+    "select",
+    "tailwind",
+    "css",
+    "react",
+    "select",
+    "html",
+    "select",
+    "html",
+    "multiple",
+    "select"
+  ],
+  "author": "Habib Mhamadi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/habibmhamadi/multi-select-tag/issues"
+  },
+  "homepage": "https://github.com/habibmhamadi/multi-select-tag#readme"
+}
