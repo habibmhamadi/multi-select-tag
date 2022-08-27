@@ -2,10 +2,9 @@
   "name": "multi-select-tag",
   "version": "1.0.0",
   "description": "HTML multiple tag selection input with Tailwind CSS.",
-  "main": "dist/output.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prod": "npm run production"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
