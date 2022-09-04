@@ -102,6 +102,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
 
         // button
         button = document.createElement('button')
+        button.type = 'button'
         btnContainer.append(button)
 
         const icon = domParser.parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
