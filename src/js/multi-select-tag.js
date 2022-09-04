@@ -2,15 +2,20 @@
 // Email: habibmhamadi@gmail.com
 
 
-export default function MultiSelectTag (el, customs = {}) {
+function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
     var element = null
     var options = null
     var customSelectContainer = null
+    var wrapper = null
+    var btnContainer = null
     var body = null
     var inputContainer = null
+    var inputBody = null
     var input = null
+    var button = null
     var drawer = null
     var ul = null
+    var domParser = new DOMParser()
     init()
 
     function init() {
@@ -20,11 +25,12 @@ export default function MultiSelectTag (el, customs = {}) {
         enableItemSelection()
         setValues()
 
-        input.addEventListener('click', () => {
-            initOptions()
-            enableItemSelection()
-            if(options.length != body.childElementCount - 1) {
-                drawer.classList.remove('hidden')  
+        button.addEventListener('click', () => {
+            if(drawer.classList.contains('hidden')) {
+                initOptions()
+                enableItemSelection()
+                drawer.classList.remove('hidden')
+                input.focus()
             }
         })
 
@@ -34,8 +40,8 @@ export default function MultiSelectTag (el, customs = {}) {
         })
 
         input.addEventListener('keydown', (e) => {
-            if(e.key === 'Backspace' && !e.target.value && body.childElementCount > 1) {
-                const child = body.children[body.childElementCount - 2].firstChild
+            if(e.key === 'Backspace' && !e.target.value && inputContainer.childElementCount > 1) {
+                const child = body.children[inputContainer.childElementCount - 2].firstChild
                 const option = options.find((op) => op.value == child.dataset.value)
                 option.selected = false
                 removeTag(child.dataset.value)
@@ -57,30 +63,69 @@ export default function MultiSelectTag (el, customs = {}) {
         options = getOptions();
         element.classList.add('hidden')
         
+        // .multi-select-tag
         customSelectContainer = document.createElement('div')
-        customSelectContainer.classList.add(...['relative', `w-${customs.width || 'full'}`])
-        
+        customSelectContainer.classList.add('mult-select-tag')
+
+        // .container
+        wrapper = document.createElement('div')
+        wrapper.classList.add('wrapper')
+
+        // body
         body = document.createElement('div')
-        body.classList.add(...['inline-flex', 'gap-1', 'p-1.5', 'rounded-md', 'items-center', 'flex-wrap', 'border-gray-300', 'border', 'w-full'])
+        body.classList.add('body')
+        if(customs.shadow) {
+            body.classList.add('shadow')
+        }
+        if(customs.rounded) {
+            body.classList.add('rounded')
+        }
         
+        // .input-container
         inputContainer = document.createElement('div')
-        inputContainer.classList.add(...['inline-flex', 'flex-[1_0_100px]', 'input-container'])
+        inputContainer.classList.add('input-container')
 
+        // input
         input = document.createElement('input')
+        input.classList.add('input')
         input.placeholder = `${customs.placeholder || 'Search...'}`
-        input.classList.add(...['inline-block', 'w-full', 'border-none', 'outline-none', 'bg-transparent'])
 
-        inputContainer.append(input)
+        inputBody = document.createElement('inputBody')
+        inputBody.classList.add('input-body')
+        inputBody.append(input)
 
         body.append(inputContainer)
 
+        // .btn-container
+        btnContainer = document.createElement('div')
+        btnContainer.classList.add('btn-container')
+
+        // button
+        button = document.createElement('button')
+        btnContainer.append(button)
+
+        const icon = domParser.parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 21 6 15"></polyline></svg>`, 'image/svg+xml').documentElement
+        button.append(icon)
+
+
+        body.append(btnContainer)
+        wrapper.append(body)
+
         drawer = document.createElement('div');
-        drawer.classList.add(...['absolute', 'bg-white', 'hidden', 'max-h-40', 'z-40', 'overflow-y-scroll', 'left-0', 'right-0', 'p-2', 'rounded', 'shadow'])
+        drawer.classList.add(...['drawer', 'hidden'])
+        if(customs.shadow) {
+            drawer.classList.add('shadow')
+        }
+        if(customs.rounded) {
+            drawer.classList.add('rounded')
+        }
+        drawer.append(inputBody)
         ul = document.createElement('ul');
         
         drawer.appendChild(ul)
     
-        customSelectContainer.appendChild(body)
+        customSelectContainer.appendChild(wrapper)
         customSelectContainer.appendChild(drawer)
 
         // Place TailwindTagSelection after the element
@@ -100,7 +145,6 @@ export default function MultiSelectTag (el, customs = {}) {
             }
             else {
                 const li = document.createElement('li')
-                li.classList.add(...['p-2', 'hover:bg-gray-100', 'rounded', 'cursor-pointer'])
                 li.innerHTML = option.label
                 li.dataset.value = option.value
                 
@@ -113,24 +157,17 @@ export default function MultiSelectTag (el, customs = {}) {
                 }
             }
         }
-        if(ul.childElementCount == 0 || options.length == body.childElementCount - 1) {
-            drawer.classList.add('hidden')
-        }
-        else if (document.activeElement == input) {
-            drawer.classList.remove('hidden')
-        }
     }
 
     function createTag(option) {
         // Create and show selected item as tag
-        const color = `${customs.tagColor || 'teal'}`
         const itemDiv = document.createElement('div');
-        itemDiv.classList.add(...['flex', 'justify-center', 'items-center', 'font-medium', 'py-0.5', 'px-1.5', 'rounded-full', `text-${color}-700`, `bg-${color}-100`, 'border', `border-${color}-300`]);
+        itemDiv.classList.add('item-container');
         const itemLabel = document.createElement('div');
-        itemLabel.classList.add(...[ 'text-xs', 'font-normal', 'leading-none', 'max-w-full', 'flex-initial']);
+        itemLabel.classList.add('item-label');
         itemLabel.innerHTML = option.label
         itemLabel.dataset.value = option.value 
-        const itemClose = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x cursor-pointer hover:text-${color}-400 rounded-full w-4 h-4 ml-2">
+        const itemClose = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-close-svg">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>`, 'image/svg+xml').documentElement
@@ -145,7 +182,7 @@ export default function MultiSelectTag (el, customs = {}) {
     
         itemDiv.appendChild(itemLabel)
         itemDiv.appendChild(itemClose)
-        body.insertBefore(itemDiv, inputContainer)
+        inputContainer.append(itemDiv)
     }
 
     function enableItemSelection() {
@@ -163,8 +200,8 @@ export default function MultiSelectTag (el, customs = {}) {
 
     function isTagSelected(val) {
         // If the item is already selected
-        for(var child of body.children) {
-            if(!child.classList.contains('input-container') && child.firstChild.dataset.value == val) {
+        for(var child of inputContainer.children) {
+            if(!child.classList.contains('input-body') && child.firstChild.dataset.value == val) {
                 return true
             }
         }
@@ -172,9 +209,9 @@ export default function MultiSelectTag (el, customs = {}) {
     }
     function removeTag(val) {
         // Remove selected item
-        for(var child of body.children) {
-            if(!child.classList.contains('input-container') && child.firstChild.dataset.value == val) {
-                body.removeChild(child)
+        for(var child of inputContainer.children) {
+            if(!child.classList.contains('input-body') && child.firstChild.dataset.value == val) {
+                inputContainer.removeChild(child)
             }
         }
     }

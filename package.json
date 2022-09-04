@@ -1,8 +1,7 @@
 {
   "name": "multi-select-tag",
-  "version": "1.0.3",
-  "description": "HTML multiple tag selection input with Tailwind CSS.",
-  "main": "src/multi-select-tag.js",
+  "version": "1.0.4",
+  "description": "HTML multiple tag selection input.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

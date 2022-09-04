@@ -1,14 +1,15 @@
 # multi-select-tag
 
-HTML multiple tag selection with Tailwind CSS.
+HTML multiple tag selection input.
 
-<img src="https://firebasestorage.googleapis.com/v0/b/flutterapp-5c015.appspot.com/o/demo_images%2Fmulti-select-tag-demo.JPG?alt=media&token=160a01ad-ca09-4d8a-a9dd-1e4b1f9b121f" style="width:70%" alt="multi-select-tag demo" />
+<img src="https://firebasestorage.googleapis.com/v0/b/flutterapp-5c015.appspot.com/o/demo_images%2Fmult-tag-select.png?alt=media&token=90fc1411-e9ad-4bcb-89ef-7ab92ab3f491" style="width:70%" alt="multi-select-tag demo" />
 
 ## Getting Started
 
-Install via NPM:
 
-`npm install multi-select-tag`
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+```
 
 ```html
 <select name="countries" id="countries" multiple>
@@ -20,30 +21,20 @@ Install via NPM:
 </select>
 ```
 
-```javascript
-import MultiSelectTag from 'multi-select-tag.js'
-
-new MultiSelectTag('countries')  // id
-```
-
-
-Using CDN
-
-```javascript
-<script type="module">
-    import MultiSelectTag from 'https://unpkg.com/multi-select-tag@1.0.3/src/multi-select-tag.js'
+```html
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+<script>
     new MultiSelectTag('countries')  // id
 </script>
 ```
 
 
-- You can pass a second optional paramater for customizing input placeholder, width and tag colors.
+- You can pass a second optional paramater for border-radius and shadow.
 
 ```javascript
 new MultiSelectTag('countries', {
-    placeholder: 'Start Typing...',
-    width: '80',    // tailwind width values only
-    tagColor: 'red'  // Tailwind color names only
+    rounded: true,    // default true
+    shadow: true      // default false
 })
 ```
 
