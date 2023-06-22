@@ -41,7 +41,8 @@ HTML multiple tag selection input.
 ```javascript
 new MultiSelectTag('countries', {
     rounded: true,    // default true
-    shadow: true      // default false
+    shadow: true,      // default false
+    placeholder: 'Search'  // default Search...
 })
 ```
 
