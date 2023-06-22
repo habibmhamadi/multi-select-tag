@@ -23,7 +23,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         createElements()
         initOptions()
         enableItemSelection()
-        setValues()
+        setValues(false)
 
         button.addEventListener('click', () => {
             if(drawer.classList.contains('hidden')) {
@@ -216,12 +216,18 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
             }
         }
     }
-    function setValues() {
+    function setValues(fireEvent=true) {
         // Update element final values
+        selected_values = []
         for(var i = 0; i < options.length; i++) {
             element.options[i].selected = options[i].selected
+            if(options[i].selected) {
+                selected_values.push({label: options[i].label, value: options[i].value})
+            }
         }
-     
+        if (fireEvent && customs.hasOwnProperty('onChange')) {
+            customs.onChange(selected_values)
+        }
     }
     function getOptions() {
         // Map element options

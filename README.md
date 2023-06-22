@@ -42,6 +42,9 @@ HTML multiple tag selection input.
 new MultiSelectTag('countries', {
     rounded: true,    // default true
     shadow: true      // default false
+    onChange: function(values) {
+        console.log(values)
+    }
 })
 ```
 
