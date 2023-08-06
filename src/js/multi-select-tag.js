@@ -2,7 +2,7 @@
 // Email: habibmhamadi@gmail.com
 
 
-function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
+function MultiSelectTag (el, customs = {shadow: false, rounded:true, toggleHide: false}) {
     var element = null
     var options = null
     var customSelectContainer = null
@@ -31,6 +31,11 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
                 enableItemSelection()
                 drawer.classList.remove('hidden')
                 input.focus()
+            } else {
+                if (customs.toggleHide)
+                {
+                    drawer.classList.add('hidden')
+                }
             }
         })
 
@@ -52,6 +57,12 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         
         window.addEventListener('click', (e) => {   
             if (!customSelectContainer.contains(e.target)){
+                if (customs.toggleHide)
+                {
+                    enableItemSelection()
+                    return
+                }
+
                 drawer.classList.add('hidden')
             }
         });
