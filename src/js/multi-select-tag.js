@@ -56,13 +56,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true, toggleHide:
         })
         
         window.addEventListener('click', (e) => {   
-            if (!customSelectContainer.contains(e.target)){
-                if (customs.toggleHide)
-                {
-                    enableItemSelection()
-                    return
-                }
-
+            if (!wrapper.contains(e.target) && !drawer.contains(e.target)){
                 drawer.classList.add('hidden')
             }
         });
