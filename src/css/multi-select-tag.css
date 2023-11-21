@@ -29,6 +29,7 @@
     flex-wrap: wrap;
     flex: 1 1 auto;
     padding: 0.1rem;
+    align-items: center;
 }
 
 .mult-select-tag .input-body {
@@ -107,12 +108,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #2c7a7b;
     padding: 0.2rem 0.4rem;
     margin: 0.2rem;
     font-weight: 500;
-    border: 1px solid #81e6d9;
-    background: #e6fffa;
+    border: 1px solid;
     border-radius: 9999px;
 }
 
@@ -122,7 +121,6 @@
     font-size: 0.75rem;
     font-weight: 400;
     flex: 0 1 auto;
-    color: #2c7a7b;
 }
 
 .mult-select-tag .item-close-container {

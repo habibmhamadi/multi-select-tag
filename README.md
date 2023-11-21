@@ -36,13 +36,18 @@ HTML multiple tag selection input.
 ```
 
 
-- You can pass a second optional paramater for border-radius, shadow and listening to `onchange` event.
+- You can pass a second optional paramater for border-radius, shadow, placeholder, tag color and listening to `onchange` event.
 
 ```javascript
 new MultiSelectTag('countries', {
     rounded: true,    // default true
     shadow: true,      // default false
     placeholder: 'Search',  // default Search...
+    tagColor: {
+        textColor: '#327b2c',
+        borderColor: '#92e681',
+        bgColor: '#eaffe6',
+    }
     onChange: function(values) {
         console.log(values)
     }

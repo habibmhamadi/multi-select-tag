@@ -15,6 +15,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
     var button = null
     var drawer = null
     var ul = null
+    var tagColor = customs.tagColor || {}
     var domParser = new DOMParser()
     init()
 
@@ -164,8 +165,12 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         // Create and show selected item as tag
         const itemDiv = document.createElement('div');
         itemDiv.classList.add('item-container');
+        itemDiv.style.color = tagColor.textColor || '#2c7a7b'
+        itemDiv.style.borderColor = tagColor.borderColor || '#81e6d9'
+        itemDiv.style.background = tagColor.bgColor || '#e6fffa'
         const itemLabel = document.createElement('div');
         itemLabel.classList.add('item-label');
+        itemLabel.style.color = tagColor.textColor || '#2c7a7b'
         itemLabel.innerHTML = option.label
         itemLabel.dataset.value = option.value 
         const itemClose = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-close-svg">
@@ -216,6 +221,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
             }
         }
     }
+
     function setValues(fireEvent=true) {
         // Update element final values
         selected_values = []
