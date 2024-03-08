@@ -16,6 +16,9 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
     var drawer = null
     var ul = null
     var tagColor = customs.tagColor || {}
+    tagColor.textColor = "#0372B2"
+    tagColor.borderColor = "#0372B2"
+    tagColor.bgColor = "#C0E6FC"
     var domParser = new DOMParser()
     init()
 
@@ -36,8 +39,8 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         })
 
         input.addEventListener('keyup', (e) => {
-                initOptions(e.target.value)
-                enableItemSelection()
+            initOptions(e.target.value)
+            enableItemSelection()
         })
 
         input.addEventListener('keydown', (e) => {
@@ -48,22 +51,27 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
                 removeTag(child.dataset.value)
                 setValues()
             }
-            
+
         })
-        
-        window.addEventListener('click', (e) => {   
+
+        window.addEventListener('click', (e) => {
             if (!customSelectContainer.contains(e.target)){
-                drawer.classList.add('hidden')
+                if ((e.target.nodeName !== "LI") && (e.target.getAttribute("class") !== "input_checkbox")) {
+                    // hide the list option only if we click outside of it
+                    drawer.classList.add('hidden')
+                } else {
+                    // enable again the click on the list options
+                    enableItemSelection()
+                }
             }
         });
-
     }
 
     function createElements() {
         // Create custom elements
         options = getOptions();
         element.classList.add('hidden')
-        
+
         // .multi-select-tag
         customSelectContainer = document.createElement('div')
         customSelectContainer.classList.add('mult-select-tag')
@@ -81,7 +89,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         if(customs.rounded) {
             body.classList.add('rounded')
         }
-        
+
         // .input-container
         inputContainer = document.createElement('div')
         inputContainer.classList.add('input-container')
@@ -124,9 +132,9 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         }
         drawer.append(inputBody)
         ul = document.createElement('ul');
-        
+
         drawer.appendChild(ul)
-    
+
         customSelectContainer.appendChild(wrapper)
         customSelectContainer.appendChild(drawer)
 
@@ -139,24 +147,43 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         }
     }
 
+    function createElementInSelectList(option, val, selected=false) {
+        // Create a <li> elmt in the drop-down list,
+        // selected parameters tells if the checkbox need to be selected and the bg color changed
+        const li = document.createElement('li')
+        li.innerHTML = "<input type='checkbox' style='margin:0 0.5em 0 0' class='input_checkbox'>" // add the checkbox at the left of the <li>
+        li.innerHTML += option.label
+        li.dataset.value = option.value
+        const checkbox = li.firstChild
+        checkbox.dataset.value = option.value
+
+        // For search
+        if(val && option.label.toLowerCase().startsWith(val.toLowerCase())) {
+            ul.appendChild(li)
+        }
+        else if(!val) {
+            ul.appendChild(li)
+        }
+
+        // Change bg color and checking the checkbox
+        if (selected) {
+            li.style.backgroundColor = tagColor.bgColor
+            checkbox.checked = true
+        }
+
+    }
     function initOptions(val = null) {
         ul.innerHTML = ''
         for (var option of options) {
+            // if option already selected
             if (option.selected) {
                 !isTagSelected(option.value) && createTag(option)
+
+                // We create a option in the list, but with different color
+                createElementInSelectList(option, val, true)
             }
             else {
-                const li = document.createElement('li')
-                li.innerHTML = option.label
-                li.dataset.value = option.value
-                
-                // For search
-                if(val && option.label.toLowerCase().startsWith(val.toLowerCase())) {
-                    ul.appendChild(li)
-                }
-                else if(!val) {
-                    ul.appendChild(li)
-                }
+                createElementInSelectList(option, val)
             }
         }
     }
@@ -172,12 +199,12 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         itemLabel.classList.add('item-label');
         itemLabel.style.color = tagColor.textColor || '#2c7a7b'
         itemLabel.innerHTML = option.label
-        itemLabel.dataset.value = option.value 
+        itemLabel.dataset.value = option.value
         const itemClose = new DOMParser().parseFromString(`<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="item-close-svg">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>`, 'image/svg+xml').documentElement
- 
+
         itemClose.addEventListener('click', (e) => {
             const unselectOption = options.find((op) => op.value == option.value)
             unselectOption.selected = false
@@ -185,7 +212,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
             initOptions()
             setValues()
         })
-    
+
         itemDiv.appendChild(itemLabel)
         itemDiv.appendChild(itemClose)
         inputContainer.append(itemDiv)
@@ -195,11 +222,22 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         // Add click listener to the list items
         for(var li of ul.children) {
             li.addEventListener('click', (e) => {
-                options.find((o) => o.value == e.target.dataset.value).selected = true
-                input.value = null
-                initOptions()
-                setValues()
-                input.focus()
+                if (options.find((o) => o.value == e.target.dataset.value).selected === false) {
+                    // if the option is not selected, we select it
+                    options.find((o) => o.value == e.target.dataset.value).selected = true
+                    input.value = null
+                    initOptions()
+                    setValues()
+                    //input.focus() // brings up the list to the input
+                } else {
+                    // if it's alreadey selected, we deselect it
+                    options.find((o) => o.value == e.target.dataset.value).selected = false
+                    input.value = null
+                    initOptions()
+                    setValues()
+                    //input.focus() // brings up the list on the input
+                    removeTag(e.target.dataset.value)
+                }
             })
         }
     }
@@ -213,6 +251,7 @@ function MultiSelectTag (el, customs = {shadow: false, rounded:true}) {
         }
         return false
     }
+
     function removeTag(val) {
         // Remove selected item
         for(var child of inputContainer.children) {
