@@ -177,6 +177,7 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         // Change bg color and checking the checkbox
         if (selected) {
             li.style.backgroundColor = tagColor.bgColor;
+            li.style.color = tagColor.textColor;
             checkbox.checked = true;
         }
     }
