@@ -1,7 +1,6 @@
 // Author: Habib Mhamadi
 // Email: habibmhamadi@gmail.com
 
-
 function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     // Initialize variables
     var element = null,
@@ -18,10 +17,10 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
         ul = null;
 
     // Customize tag colors
-    var tagColor = customs.tagColor || {};
-    tagColor.textColor = "#0372B2";
-    tagColor.borderColor = "#0372B2";
-    tagColor.bgColor = "#C0E6FC";
+    var tagColor = {};
+    tagColor.textColor = customs.tagColor.textColor || "#0372B2";
+    tagColor.borderColor = customs.tagColor.borderColor || "#0372B2";
+    tagColor.bgColor = customs.tagColor.bgColor || "#C0E6FC";
 
     // Initialize DOM Parser
     var domParser = new DOMParser();
