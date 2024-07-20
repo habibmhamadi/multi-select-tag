@@ -2,17 +2,17 @@
 
 HTML multiple tag selection input.
 
-<img src="https://firebasestorage.googleapis.com/v0/b/flutterapp-5c015.appspot.com/o/demo_images%2Fmulti-select-tag.png?alt=media&token=7b24cf91-525c-4562-b6a2-b5733f93191a" style="width:70%" alt="multi-select-tag demo" />
+<img src="https://firebasestorage.googleapis.com/v0/b/habib08-965ea.appspot.com/o/multi-select-tag%2FMultiple%20Select%20Tag.png?alt=media&token=1f3ec287-c24c-4954-9b78-321f2ea7dde5" style="width:70%" alt="multi-select-tag demo" />
 
 ## Usage
 
 
 - Copy and paste the following css link and js script to your html file.
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/css/multi-select-tag.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
 ```
 ```html
-<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.0.1/dist/js/multi-select-tag.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
 ```
 
 
