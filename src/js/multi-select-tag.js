@@ -19,9 +19,9 @@ function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
 
     // Customize tag colors
     var tagColor = customs.tagColor || {};
-    tagColor.textColor = "#0372B2";
-    tagColor.borderColor = "#0372B2";
-    tagColor.bgColor = "#C0E6FC";
+    tagColor.textColor = tagColor.textColor || "#FF5D29";
+    tagColor.borderColor = tagColor.borderColor || "#FF5D29";
+    tagColor.bgColor = tagColor.bgColor || "#FFE9E2";
 
     // Initialize DOM Parser
     var domParser = new DOMParser();
