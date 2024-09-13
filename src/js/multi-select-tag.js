@@ -4,6 +4,8 @@
 
 function MultiSelectTag(el, customs = { shadow: false, rounded: true }) {
     // Initialize variables
+    123
+    
     var element = null,
         options = null,
         customSelectContainer = null,
