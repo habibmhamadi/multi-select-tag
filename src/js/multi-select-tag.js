@@ -1,6 +1,5 @@
 // Author: Habib Mhamadi
 // Email: habibmhamadi@gmail.com
-// Version: ^4.0.1
 
 function MultiSelectTag(selectElOrId, config) {
     // Private variables
