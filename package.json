@@ -1,11 +1,11 @@
 {
   "name": "multi-select-tag",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "HTML multiple tag selection input.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "minify-js": "minify src/js/multi-select-tag.js > dist/js/multi-select-tag.js",
-    "minify-css": "minify src/css/multi-select-tag.css > dist/css/multi-select-tag.css",
+    "minify-js": "minify src/js/multi-select-tag.js > dist/js/multi-select-tag.min.js",
+    "minify-css": "minify src/css/multi-select-tag.css > dist/css/multi-select-tag.min.css",
     "minify": "npm run minify-js && npm run minify-css"
   },
   "repository": {
