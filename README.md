@@ -2,7 +2,7 @@
 
 MultiSelectTag is a lightweight, closure-based JavaScript library that transforms a standard HTML `<select multiple>` element into a custom, tag-based multi-select widget.
 
-<img src="https://firebasestorage.googleapis.com/v0/b/habib08-965ea.appspot.com/o/multi-select-tag%2Fmulti-select-tag.png?alt=media&token=0e29b676-be1c-4ae5-bf75-787097dca53f" style="width:75%" alt="multi-select-tag demo" />
+<img src="https://firebasestorage.googleapis.com/v0/b/habib08-965ea.appspot.com/o/multi-select-tag%2Fmulti-select-tag.jpg?alt=media&token=18de2bbf-d62f-4e2a-931a-4103db4eeded" style="width:75%" alt="multi select tag" />
 
 ## Features
 - **Search & Filter:** Filter options dynamically as you type.
