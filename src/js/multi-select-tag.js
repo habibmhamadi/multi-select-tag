@@ -2,6 +2,8 @@
 // Email: habibmhamadi@gmail.com
 
 function MultiSelectTag(selectElOrId, config) {
+    config = config || {};
+
     // Private variables
     var selectElement,
         optionsData = [],
