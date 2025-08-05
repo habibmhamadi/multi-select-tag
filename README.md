@@ -8,6 +8,7 @@ MultiSelectTag is a lightweight, closure-based JavaScript library that transform
 - **Search & Filter:** Filter options dynamically as you type.
 - **Keyboard Navigation:** Use arrow keys to navigate and the Enter key to select.
 - **Automatic Sync:** All changes sync with the hidden `<select>` element.
+- **Tag Display Control:** Limit the number of visible tags with interactive "+ X more" indicator.
 - **Public API:** Helper methods `selectAll()`, `clearAll()`, and `getSelectedTags()`.
 - **Multiple Instances:** Each instance is independent and encapsulated.
 
@@ -41,6 +42,7 @@ Pass the `id` of your select element and an optional configuration object to cre
 <script>
     var tagSelector = new MultiSelectTag('countries', {
         maxSelection: 5,              // default unlimited.
+        maxDisplayTags: 2,            // default unlimited - shows only 2 tags + "+ X more".
         required: true,               // default false.
         placeholder: 'Search tags',   // default 'Search'.
         onChange: function(selected) { // Callback when selection changes.
@@ -49,6 +51,42 @@ Pass the `id` of your select element and an optional configuration object to cre
     });
 </script>
 ```
+<br/>
+
+## Configuration Options
+
+### maxDisplayTags
+Control how many selected tags are visible in the container. When more tags are selected than this limit, a clickable "+ X more" indicator is shown.
+
+```javascript
+// Show only 1 tag + "+ X more" for additional selections
+var tagSelector = MultiSelectTag('countries', {
+    maxDisplayTags: 1
+});
+
+// Show 3 tags + "+ X more" for additional selections  
+var tagSelector = MultiSelectTag('countries', {
+    maxDisplayTags: 3
+});
+
+// Show all tags (default behavior)
+var tagSelector = MultiSelectTag('countries', {
+    // maxDisplayTags not set - shows all tags
+});
+```
+
+**Example:** If you select "India", "USA", "UK", "Canada" with `maxDisplayTags: 1`, it will display:
+- "India" (visible tag)
+- "+ 3 more" (clickable indicator)
+
+Clicking the "+ 3 more" indicator opens a dropdown showing all selected tags with the ability to remove them individually.
+
+### Interactive Features
+- **Clickable "+ X more" indicator:** Click to view all selected tags
+- **Individual tag removal:** Click the × button next to any tag in the dropdown to remove it
+- **Automatic dropdown hiding:** The dropdown automatically closes when all tags are removed
+- **Consistent styling:** Follows the same design patterns as the main dropdown
+
 <br/>
 
 ## Using the Public API

@@ -60,11 +60,78 @@
     border-radius: 0.25rem;
     color: #1E40AF;
     background-color: #DBEAFE;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.multi-select-tag .tag-item:hover {
+    background-color: #BFDBFE;
 }
 .multi-select-tag .cross {
     margin-left: 0.25rem;
-    cursor: pointer;
 }
+.multi-select-tag .more-indicator {
+    display: flex;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    align-items: center;
+    border-radius: 0.25rem;
+    color: #6B7280;
+    background-color: #F3F4F6;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-style: italic;
+    transition: background-color 0.2s ease;
+}
+.multi-select-tag .more-indicator:hover {
+    background-color: #E5E7EB;
+}
+.multi-select-tag .selected-tags-dropdown {
+    overflow: auto;
+    position: absolute;
+    z-index: 10;
+    padding: 0px;
+    margin-top: 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid #e5e7eb;
+    width: 100%;
+    max-height: 15rem;
+    background-color: #ffffff;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.multi-select-tag .selected-tag-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    list-style-type: none;
+    border-bottom: 1px solid #f3f4f6;
+}
+.multi-select-tag .selected-tag-item:last-child {
+    border-bottom: none;
+}
+.multi-select-tag .selected-tag-item:hover {
+    background-color: #f9fafb;
+}
+.multi-select-tag .selected-tag-label {
+    flex-grow: 1;
+    color: #1E40AF;
+    font-weight: 500;
+}
+.multi-select-tag .selected-tag-remove {
+    margin-left: 0.5rem;
+    cursor: pointer;
+    color: #ef4444;
+    font-weight: bold;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.125rem;
+    border-radius: 0.125rem;
+    transition: background-color 0.2s ease;
+}
+
 .multi-select-tag .hidden {
     display: none;
 }

@@ -11,13 +11,15 @@ function MultiSelectTag(selectElOrId, config) {
         onChange = config.onChange || function() {},
         required = config.required || false,
         maxSelection = typeof config.maxSelection === 'number' ? config.maxSelection : Infinity,
+        maxDisplayTags = typeof config.maxDisplayTags === 'number' ? config.maxDisplayTags : Infinity,
         placeholder = config.placeholder || 'Search',
         selectedTags = [],
         filteredOptions = [],
         highlightedIndex = -1,
         selectedTagsContainer,
         tagInput,
-        dropdown;
+        dropdown,
+        selectedTagsDropdown;
   
     // Resolve the select element from a string id.
     selectElement = document.getElementById(selectElOrId);
@@ -62,10 +64,12 @@ function MultiSelectTag(selectElOrId, config) {
             <input type="text" id="tag-input" placeholder="${placeholder}" class="tag-input" autocomplete="off">
           </div>
           <ul id="dropdown" class="dropdown hidden"></ul>
+          <ul id="selected-tags-dropdown" class="selected-tags-dropdown hidden"></ul>
         </div>`;
       selectedTagsContainer = container.querySelector('#selected-tags');
       tagInput = container.querySelector('#tag-input');
       dropdown = container.querySelector('#dropdown');
+      selectedTagsDropdown = container.querySelector('#selected-tags-dropdown');
       bindEvents();
     }
   
@@ -121,10 +125,12 @@ function MultiSelectTag(selectElOrId, config) {
         if (!container.contains(e.target)) {
           highlightedIndex = -1;
           dropdown.classList.add('hidden');
+          selectedTagsDropdown.classList.add('hidden');
         }
       });
   
       tagInput.addEventListener('focus', function() {
+        selectedTagsDropdown.classList.add('hidden'); // Hide selected items dropdown
         renderDropdown();
       });
     }
@@ -168,19 +174,46 @@ function MultiSelectTag(selectElOrId, config) {
       for (var k = 0; k < tagItems.length; k++) {
         tagItems[k].remove();
       }
-      selectedTags.forEach(function(tag) {
+      
+      // Remove any existing "more" indicator
+      var moreIndicator = selectedTagsContainer.querySelector('.more-indicator');
+      if (moreIndicator) {
+        moreIndicator.remove();
+      }
+      
+      var tagsToDisplay = selectedTags.slice(0, maxDisplayTags);
+      var remainingCount = selectedTags.length - maxDisplayTags;
+      
+      tagsToDisplay.forEach(function(tag) {
         var span = document.createElement('span');
         span.className = 'tag-item';
         span.textContent = tag.label;
         var closeBtn = document.createElement('span');
         closeBtn.className = 'cross';
         closeBtn.innerHTML = '&times;';
-        closeBtn.addEventListener('click', function() {
+        span.appendChild(closeBtn);
+        
+        // Make the entire tag item clickable to remove
+        span.addEventListener('click', function() {
           deselectTag(tag);
         });
-        span.appendChild(closeBtn);
+        
         selectedTagsContainer.insertBefore(span, tagInput);
       });
+      
+      // Add "+ X more" indicator if there are more tags than maxDisplayTags
+      if (remainingCount > 0) {
+        var moreSpan = document.createElement('span');
+        moreSpan.className = 'more-indicator';
+        moreSpan.textContent = '+ ' + remainingCount + ' more';
+        moreSpan.style.cursor = 'pointer';
+        moreSpan.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dropdown.classList.add('hidden'); // Hide the main dropdown
+          showSelectedTagsDropdown();
+        });
+        selectedTagsContainer.insertBefore(moreSpan, tagInput);
+      }
     }
   
     // Private function: Add a tag to the selection.
@@ -206,11 +239,52 @@ function MultiSelectTag(selectElOrId, config) {
         return t.id !== tag.id;
       });
       renderSelectedTags();
-      renderDropdown();
+      
+      // Don't show the main dropdown when deselecting from selected tags dropdown
+      // Only hide the selected tags dropdown if no more tags
+      if (selectedTags.length === 0) {
+        selectedTagsDropdown.classList.add('hidden');
+        dropdown.classList.add('hidden');
+      }
+      
       syncToSelect();
       onChange(selectedTags);
     }
   
+    // Private function: Show dropdown with all selected tags
+    function showSelectedTagsDropdown() {
+      selectedTagsDropdown.innerHTML = '';
+      
+      if (selectedTags.length === 0) {
+        selectedTagsDropdown.classList.add('hidden');
+        return;
+      }
+      
+      selectedTags.forEach(function(tag) {
+        var li = document.createElement('li');
+        li.className = 'selected-tag-item';
+        
+        var tagLabel = document.createElement('span');
+        tagLabel.className = 'selected-tag-label';
+        tagLabel.textContent = tag.label;
+        
+        var removeBtn = document.createElement('span');
+        removeBtn.className = 'selected-tag-remove';
+        removeBtn.innerHTML = '&times;';
+        li.addEventListener('click', function(e) {
+          e.stopPropagation();
+          deselectTag(tag);
+          selectedTagsDropdown.classList.add('hidden');
+        });
+        
+        li.appendChild(tagLabel);
+        li.appendChild(removeBtn);
+        selectedTagsDropdown.appendChild(li);
+      });
+      
+      selectedTagsDropdown.classList.remove('hidden');
+    }
+    
     // Private function: Synchronize the widget's selection with the underlying select element.
     function syncToSelect() {
       for (var i = 0; i < selectElement.options.length; i++) {
