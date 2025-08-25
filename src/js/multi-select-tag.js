@@ -130,7 +130,7 @@ function MultiSelectTag(selectElOrId, config) {
     }
   
     // Private function: Render the dropdown list, excluding already selected options.
-    function renderDropdown() {
+    function renderDropdown(show=true) {
       dropdown.innerHTML = '';
       var visibleOptions = filteredOptions.filter(function(opt) {
         return !selectedTags.find(function(tag) {
@@ -153,7 +153,7 @@ function MultiSelectTag(selectElOrId, config) {
         });
         dropdown.appendChild(li);
       });
-      dropdown.classList.remove('hidden');
+      if (show) dropdown.classList.remove('hidden');
       if (highlightedIndex > -1) {
         var highlightedItem = dropdown.children[highlightedIndex];
         if (highlightedItem) {
@@ -259,6 +259,24 @@ function MultiSelectTag(selectElOrId, config) {
       },
       getSelectedTags: function() {
         return selectedTags;
+      },
+      selectTags: function(tags) {
+        if (!Array.isArray(tags)) {
+          throw new Error("Input must be an array of tags.");
+        }
+        selectedTags = [];
+        for (var i = 0; i < optionsData.length; i++) {
+          if (selectedTags.length >= maxSelection) break;
+          var opt = optionsData[i];
+          // only add tag if it is in the passed tags array
+          if (tags.includes(opt.id) && !selectedTags.find(function(tag) { return tag.id === opt.id })) {
+            selectedTags.push({ id: opt.id, label: opt.label });
+          }
+        }
+        renderSelectedTags();
+        renderDropdown(false);
+        syncToSelect();
+        onChange(selectedTags);
       }
     };
   }   
